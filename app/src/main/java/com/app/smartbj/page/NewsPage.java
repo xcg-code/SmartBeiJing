@@ -58,7 +58,7 @@ public class NewsPage extends BasePage {
         OkHttpClient mOkHttpClient = new OkHttpClient();
         //创建一个Request
         final Request request = new Request.Builder()
-                .url(Configs.CATEGORY_URL)
+                .url(Configs.CATEGORY_URL_phone)
                 .build();
         //new call
         Call call = mOkHttpClient.newCall(request);
@@ -94,7 +94,7 @@ public class NewsPage extends BasePage {
 
         //初始化新闻菜单详情页
         mMenuDetailPagers=new ArrayList<BasePageMenuDetail>();
-        mMenuDetailPagers.add(new NewsMenuDetailPage(mActivity));
+        mMenuDetailPagers.add(new NewsMenuDetailPage(mActivity,mNewsData.data.get(0).children));
         mMenuDetailPagers.add(new TopicMenuDetailPage(mActivity));
         mMenuDetailPagers.add(new PhotoMenuDetailPage(mActivity));
         mMenuDetailPagers.add(new InteracMenuDetailPage(mActivity));

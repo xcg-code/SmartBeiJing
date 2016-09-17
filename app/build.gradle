@@ -30,4 +30,5 @@ dependencies {
     compile files('libs/gson-2.3.1.jar')
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.okio:okio:1.5.0'
+    compile 'com.inkapplications.viewpageindicator:library:2.4.3'
 }

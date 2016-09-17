@@ -106,6 +106,7 @@ public class ContentFragment extends BaseFragment {
     }
 
     private class ContentAdapter extends PagerAdapter {
+
         @Override
         public int getCount() {
             return mPagerList.size();
