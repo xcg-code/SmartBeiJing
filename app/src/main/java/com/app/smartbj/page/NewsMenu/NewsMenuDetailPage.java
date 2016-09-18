@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.app.smartbj.MainActivity;
 import com.app.smartbj.R;
@@ -25,6 +26,8 @@ public class NewsMenuDetailPage extends BasePageMenuDetail {
     private ArrayList<NewsMenu.NewsTabData> mTabData;
     private ArrayList<TabDetailPage> pageList;
     private TabPageIndicator indicator;
+    private ImageButton mImageButton;
+
     public NewsMenuDetailPage(Activity activity, ArrayList<NewsMenu.NewsTabData> children) {
         super(activity);
         mTabData=children;
@@ -34,6 +37,7 @@ public class NewsMenuDetailPage extends BasePageMenuDetail {
     public View initView() {
         View view=View.inflate(mActivity, R.layout.news_detail_page,null);
         mViewPager = (ViewPager) view.findViewById(R.id.vp_news);
+        mImageButton = (ImageButton) view.findViewById(R.id.bt_next);
         indicator= (TabPageIndicator) view.findViewById(R.id.tpi_indicator);
         return view;
     }
@@ -67,6 +71,16 @@ public class NewsMenuDetailPage extends BasePageMenuDetail {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 跳到下个页面
+                int currentItem = mViewPager.getCurrentItem();
+                currentItem++;
+                mViewPager.setCurrentItem(currentItem);
             }
         });
     }
