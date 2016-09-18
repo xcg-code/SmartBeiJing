@@ -3,11 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_pic"
-        android:layout_width="match_parent"
-        android:layout_height="180dp">
-    </android.support.v4.view.ViewPager>
+
     <ListView
         android:id="@+id/lv_list"
         android:layout_width="match_parent"

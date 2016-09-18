@@ -85,6 +85,7 @@ public class NewsMenuDetailPage extends BasePageMenuDetail {
         });
     }
     class NewsMenuDetailAdapter extends PagerAdapter {
+        
         //指定指示器的标题
         @Override
         public CharSequence getPageTitle(int position) {

@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -28,7 +29,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':SlidingMenu')
     compile files('libs/gson-2.3.1.jar')
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.squareup.okio:okio:1.5.0'
     compile 'com.inkapplications.viewpageindicator:library:2.4.3'
+    compile files('libs/xUtils-2.6.14.jar')
 }

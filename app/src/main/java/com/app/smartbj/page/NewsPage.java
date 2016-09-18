@@ -14,13 +14,12 @@ import com.app.smartbj.page.NewsMenu.PhotoMenuDetailPage;
 import com.app.smartbj.page.NewsMenu.TopicMenuDetailPage;
 import com.app.smartbj.utils.CacheUtils;
 import com.google.gson.Gson;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -45,7 +44,6 @@ public class NewsPage extends BasePage {
         if (!TextUtils.isEmpty(cache)) {//判断是否有缓存
             processData(cache);//加载缓存
         }
-        System.out.println("请求");
         //请求服务器，获取数据,使用开源框架okHttp
         getDataFromServer();
     }
@@ -54,33 +52,22 @@ public class NewsPage extends BasePage {
      * 从服务器获取数据 需要权限:<uses-permission android:name="android.permission.INTERNET"
      */
     private void getDataFromServer() {
-        //创建okHttpClient对象
-        OkHttpClient mOkHttpClient = new OkHttpClient();
-        //创建一个Request
-        final Request request = new Request.Builder()
-                .url(Configs.CATEGORY_URL_phone)
-                .build();
-        //new call
-        Call call = mOkHttpClient.newCall(request);
-        //请求加入调度
-        call.enqueue(new Callback() {
+        HttpUtils utils=new HttpUtils();
+        utils.send(HttpRequest.HttpMethod.GET, Configs.CATEGORY_URL, new RequestCallBack<String>() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                System.out.println("请求错误");
-
-            }
-
-            @Override
-            public void onResponse(final Response response) throws IOException {
-                String result = response.body().string();
-                System.out.println("请求成功"+result);
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                String result=responseInfo.result;
+                System.out.println("请求总体数据成功,result="+result);
                 processData(result);//解析JSON数据
                 CacheUtils.setCache(mActivity, Configs.CATEGORY_URL, result);//写入缓存
             }
 
+            @Override
+            public void onFailure(HttpException error, String msg) {
+                System.out.println("请求失败");
 
+            }
         });
-
     }
 
     /**

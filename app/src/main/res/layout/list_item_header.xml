@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.app.smartbj.view.TopNewsViewPager
+            android:id="@+id/vp_pic"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="标题"
+                android:textColor="#eee"
+                android:textSize="18sp"/>
+            <com.viewpagerindicator.CirclePageIndicator
+                android:id="@+id/indictaor"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"/>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>
