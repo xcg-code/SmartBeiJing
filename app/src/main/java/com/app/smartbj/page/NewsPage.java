@@ -52,12 +52,12 @@ public class NewsPage extends BasePage {
      * 从服务器获取数据 需要权限:<uses-permission android:name="android.permission.INTERNET"
      */
     private void getDataFromServer() {
-        HttpUtils utils=new HttpUtils();
+        HttpUtils utils = new HttpUtils();
         utils.send(HttpRequest.HttpMethod.GET, Configs.CATEGORY_URL, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                String result=responseInfo.result;
-                System.out.println("请求总体数据成功,result="+result);
+                String result = responseInfo.result;
+                System.out.println("请求总体数据成功,result=" + result);
                 processData(result);//解析JSON数据
                 CacheUtils.setCache(mActivity, Configs.CATEGORY_URL, result);//写入缓存
             }
@@ -80,33 +80,26 @@ public class NewsPage extends BasePage {
         mNewsData = gson.fromJson(result, NewsMenu.class);
 
         //初始化新闻菜单详情页
-        mMenuDetailPagers=new ArrayList<BasePageMenuDetail>();
-        mMenuDetailPagers.add(new NewsMenuDetailPage(mActivity,mNewsData.data.get(0).children));
+        mMenuDetailPagers = new ArrayList<BasePageMenuDetail>();
+        mMenuDetailPagers.add(new NewsMenuDetailPage(mActivity, mNewsData.data.get(0).children));
         mMenuDetailPagers.add(new TopicMenuDetailPage(mActivity));
         mMenuDetailPagers.add(new PhotoMenuDetailPage(mActivity));
         mMenuDetailPagers.add(new InteracMenuDetailPage(mActivity));
 
-        //okHttp的onResponse在子线程中，不能直接修改该UI，需到主线程中修改
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //获取侧边栏对象
-                MainActivity mainUI = (MainActivity) mActivity;
-                LeftMenuFragment leftMenuFragment = mainUI.getLeftMenuFragment();
-                leftMenuFragment.setMenuData(mNewsData.data);
+        //获取侧边栏对象
+        MainActivity mainUI = (MainActivity) mActivity;
+        LeftMenuFragment leftMenuFragment = mainUI.getLeftMenuFragment();
+        leftMenuFragment.setMenuData(mNewsData.data);
 
-                //设置初始布局
-                setCurrentDetailPage(0);
-            }
-        });
-
+        //设置初始布局
+        setCurrentDetailPage(0);
 
     }
 
 
     public void setCurrentDetailPage(int position) {
-        BasePageMenuDetail page=mMenuDetailPagers.get(position);
-        View view=page.mRootView;// 当前页面的布局
+        BasePageMenuDetail page = mMenuDetailPagers.get(position);
+        View view = page.mRootView;// 当前页面的布局
 
         fl_content.removeAllViews();  //清除所有旧布局
         fl_content.addView(view);// 给帧布局添加布局
