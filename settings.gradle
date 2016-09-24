@@ -1,2 +1,2 @@
-include ':app', ':SlidingMenu'
+include ':app', ':SlidingMenu', ':sharesdk'
 

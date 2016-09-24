@@ -1,22 +1,27 @@
 package com.app.smartbj.page.NewsMenu;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.smartbj.Configs;
+import com.app.smartbj.NewsDetailActivity;
 import com.app.smartbj.R;
 import com.app.smartbj.domain.NewsMenu;
 import com.app.smartbj.domain.NewsTabBean;
 import com.app.smartbj.page.BasePageMenuDetail;
 import com.app.smartbj.utils.CacheUtils;
+import com.app.smartbj.utils.PrefUtils;
 import com.app.smartbj.view.PullToRefreshListView;
 import com.app.smartbj.view.TopNewsViewPager;
 import com.google.gson.Gson;
@@ -70,15 +75,37 @@ public class TabDetailPage extends BasePageMenuDetail {
                 // 刷新数据
                 getDataFromServer();
             }
+
             @Override
             public void onLoadMore() {
-                if (mMoreUrl!=null) {
+                if (mMoreUrl != null) {
                     getMoreDataFromServer();
-                }else{
+                } else {
                     Toast.makeText(mActivity, "没有更多数据", Toast.LENGTH_SHORT).show();
                     // 没有数据时也要收起控件
                     mListView.onRefreshComplete(true);
                 }
+            }
+        });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int headViewCount = mListView.getHeaderViewsCount();//获取头布局数量
+                position = position - headViewCount;
+                //System.out.println("第"+position+"个Item被点击");
+                NewsTabBean.NewsData news = mNewsDatas.get(position);
+                String readIds= PrefUtils.getString(mActivity,"read_id","");
+                if(!readIds.contains(news.id+"")){
+                    readIds=readIds+news.id+",";
+                    PrefUtils.setString(mActivity,"read_id",readIds);
+                }
+                TextView tv_title= (TextView) view.findViewById(R.id.tv_title);
+                tv_title.setTextColor(Color.GRAY);
+
+                // 跳到新闻详情页面
+                Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+                intent.putExtra("url", news.url);
+                mActivity.startActivity(intent);
             }
         });
         return view;
@@ -110,7 +137,7 @@ public class TabDetailPage extends BasePageMenuDetail {
             public void onFailure(HttpException error, String msg) {
                 // 收起下拉刷新控件
                 mListView.onRefreshComplete(false);
-                Toast.makeText(mActivity, "请求失败", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mActivity, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -126,6 +153,7 @@ public class TabDetailPage extends BasePageMenuDetail {
                 // 收起下拉刷新控件
                 mListView.onRefreshComplete(true);
             }
+
             @Override
             public void onFailure(HttpException error, String msg) {
 
@@ -266,6 +294,13 @@ public class TabDetailPage extends BasePageMenuDetail {
             holder.tvTitle.setText(newsData.title);
             holder.tvDate.setText(newsData.pubdate);
             mBitmapUtils.display(holder.ivIcon, newsData.listimage);
+
+            String readIds= PrefUtils.getString(mActivity,"read_id","");
+            if(readIds.contains(newsData.id+"")){
+                holder.tvTitle.setTextColor(Color.GRAY);
+            }else{
+                holder.tvTitle.setTextColor(Color.BLACK);
+            }
             return convertView;
         }
     }

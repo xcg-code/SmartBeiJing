@@ -31,4 +31,5 @@ dependencies {
     compile files('libs/gson-2.3.1.jar')
     compile 'com.inkapplications.viewpageindicator:library:2.4.3'
     compile files('libs/xUtils-2.6.14.jar')
+    compile files('libs/MobCommons-2016.0830.1940.jar')
 }
