@@ -30,7 +30,6 @@ public class NewsPage extends BasePage {
 
     private NewsMenu mNewsData;
     private ArrayList<BasePageMenuDetail> mMenuDetailPagers;// 菜单详情页集合
-
     public NewsPage(Activity activity) {
         super(activity);
     }
@@ -44,7 +43,7 @@ public class NewsPage extends BasePage {
         if (!TextUtils.isEmpty(cache)) {//判断是否有缓存
             processData(cache);//加载缓存
         }
-        //请求服务器，获取数据,使用开源框架okHttp
+        //请求服务器，获取数据,使用开源框架xUtils
         getDataFromServer();
     }
 
@@ -83,7 +82,7 @@ public class NewsPage extends BasePage {
         mMenuDetailPagers = new ArrayList<BasePageMenuDetail>();
         mMenuDetailPagers.add(new NewsMenuDetailPage(mActivity, mNewsData.data.get(0).children));
         mMenuDetailPagers.add(new TopicMenuDetailPage(mActivity));
-        mMenuDetailPagers.add(new PhotoMenuDetailPage(mActivity));
+        mMenuDetailPagers.add(new PhotoMenuDetailPage(mActivity,btn_photo));
         mMenuDetailPagers.add(new InteracMenuDetailPage(mActivity));
 
         //获取侧边栏对象
@@ -105,5 +104,11 @@ public class NewsPage extends BasePage {
         fl_content.addView(view);// 给帧布局添加布局
         page.initData();
         tv_title.setText(mNewsData.data.get(position).title);// 更新标题
+
+        if(page instanceof PhotoMenuDetailPage){
+            btn_photo.setVisibility(View.VISIBLE);
+        }else{
+            btn_photo.setVisibility(View.INVISIBLE);
+        }
     }
 }

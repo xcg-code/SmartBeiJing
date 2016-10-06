@@ -113,7 +113,7 @@ public class ContentFragment extends BaseFragment {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public View instantiateItem(ViewGroup container, int position) {
             BasePage page = mPagerList.get(position);
             View view = page.mRootView;// 获取当前页面对象的布局
             container.addView(view);

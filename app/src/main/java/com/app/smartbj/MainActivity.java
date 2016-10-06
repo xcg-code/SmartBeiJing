@@ -26,7 +26,7 @@ public class MainActivity extends SlidingFragmentActivity{
         SlidingMenu slidingMenu=getSlidingMenu();
         //全屏触摸
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        //屏幕预留200像素宽度
+        //屏幕预留2/3宽度
         WindowManager wm = this.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
         slidingMenu.setBehindOffset(width*2/3);

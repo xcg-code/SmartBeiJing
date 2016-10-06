@@ -3,6 +3,8 @@ package com.app.smartbj.page.NewsMenu;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -52,6 +54,8 @@ public class TabDetailPage extends BasePageMenuDetail {
     private CirclePageIndicator mIndicator;
     private String mMoreUrl;//下一页数据连接
     private NewsAdapter mNewsAdapter;
+
+    private Handler handler;
 
     public TabDetailPage(Activity activity, NewsMenu.NewsTabData newsTabData) {
         super(activity);
@@ -119,6 +123,22 @@ public class TabDetailPage extends BasePageMenuDetail {
         }
         getDataFromServer();//请求数据
 
+        //图片轮播
+        if(handler==null){
+            handler=new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+                    int currentItem=mViewPager.getCurrentItem();
+                    currentItem++;
+                    if(currentItem>mTopNewsDatas.size()-1){
+                        currentItem=0;// 如果已经到了最后一个页面,跳到第一页
+                    }
+                    mViewPager.setCurrentItem(currentItem);
+                    handler.sendEmptyMessageDelayed(0,5000);
+                }
+            };
+        }
+        handler.sendEmptyMessageDelayed(0,5000);
     }
 
     private void getDataFromServer() {
@@ -137,7 +157,7 @@ public class TabDetailPage extends BasePageMenuDetail {
             public void onFailure(HttpException error, String msg) {
                 // 收起下拉刷新控件
                 mListView.onRefreshComplete(false);
-                //Toast.makeText(mActivity, "请求失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, "请求失败", Toast.LENGTH_SHORT).show();
             }
         });
     }

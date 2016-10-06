@@ -20,6 +20,7 @@ public class BasePage {
     public TextView tv_title;
     public ImageButton bt_menu;
     public FrameLayout fl_content;
+    public ImageButton btn_photo;
     public View mRootView;
 
     public BasePage(Activity activity) {
@@ -33,6 +34,7 @@ public class BasePage {
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         bt_menu = (ImageButton) view.findViewById(R.id.btn_menu);
         fl_content = (FrameLayout) view.findViewById(R.id.fl_content);
+        btn_photo= (ImageButton) view.findViewById(R.id.btn_photo);
         bt_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
