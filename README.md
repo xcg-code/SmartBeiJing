@@ -1,2 +1,4 @@
 
-A APP contain news-reading
+这是仿照某视频编写的一个小项目。
+
+项目中用到的开源框架有：
